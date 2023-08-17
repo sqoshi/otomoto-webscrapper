@@ -21,6 +21,9 @@ class SearchFilter:
     year: Tuple[int, int]
     broken: bool
 
+class WebScrapper:
+    pass
+
 class BidfaxWebscrapper:
         def __init__(self, sf: SearchFilter) -> None:
             self.link = f"https://en.bidfax.info/{sf.brand}/{sf.model}/f/from-year={sf.year[0]}/to-year={sf.year[1]}"
@@ -31,12 +34,14 @@ class BidfaxWebscrapper:
                 "Accept-Encoding": "gzip, deflate, br",
                 "Connection": "keep-alive",
             }
+
         def get_page(self, page: int):
             link = self.link + f"/page/{page}/"
             print(f"Scrapping: {link}\n")
             resp = requests.get(link, self.headers).text
             soup = BeautifulSoup(resp, "html.parser")
             return soup
+
 class OtomotoWebscrapper:
     def __init__(self, sf: SearchFilter) -> None:
         broken_search = "search%5Bfilter_enum_damaged%5D=0&" if not sf.broken else ""
@@ -130,6 +135,7 @@ if __name__ == "__main__":
     if all_cars:
         print_basic_info(all_cars)
 
+# audi a4 2016 nowa generacja
 # audi q5 2016 nowa generacja
 # audi q3 2018 nowa generacja
 # bmw x3  2017 nowa generacja
