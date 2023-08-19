@@ -7,9 +7,10 @@ class Car:
     name: str
     mileage: int  # km
     year: int
-    price: int  # pln
+    price: float  # pln
     link: str
     damaged: Optional[str]
+    condition: Optional[str]
 
 
 @dataclass

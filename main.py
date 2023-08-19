@@ -1,8 +1,12 @@
 import threading
+from src.otomoto_scrapper.bidfax_scrapper import BidfaxWebscrapper
 from src.otomoto_scrapper.models import SearchFilter
 
 from src.otomoto_scrapper.otomoto_scrapper import OtomotoWebscrapper
+
 lock = threading.Lock()
+
+
 def print_basic_info(all_cars):
     for c in all_cars:
         print(c)
@@ -19,6 +23,7 @@ def print_basic_info(all_cars):
         f"Min price/(mileage*year): {min(all_cars, key=lambda x: x.price/(x.mileage))} "
     )
 
+
 def process_page(page_number, sf, result_list):
     ws = OtomotoWebscrapper(sf)
     soup = ws.get_page(page_number)
@@ -26,11 +31,19 @@ def process_page(page_number, sf, result_list):
     with lock:
         result_list.extend(cars)
 
+
+def scan_bidfax(sf: SearchFilter, pages_limit=10):
+    bws = BidfaxWebscrapper(sf)
+    bidfax_cars = []
+    for i in range(1, pages_limit + 1):
+        soup = bws.get_page(i)
+        bidfax_cars.extend(bws.extract_cars_from(soup))
+
+
 def main():
     otomoto_cars = []
     threads = []
     max_page = 4
-    # sf = SearchFilter(brand="audi", model="q5", year=(2014, 2016), broken=False)
     sf = SearchFilter(brand="bmw", model="x3", year=(2015, 2015), broken=False)
     for i in range(1, max_page + 1):
         thread = threading.Thread(target=process_page, args=(i, sf, otomoto_cars))
@@ -42,6 +55,7 @@ def main():
 
     if otomoto_cars:
         print_basic_info(otomoto_cars)
+
 
 # audi a4 2016 nowa generacja
 # audi q5 2016 nowa generacja

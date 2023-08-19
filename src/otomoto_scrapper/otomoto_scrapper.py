@@ -34,7 +34,7 @@ class OtomotoWebscrapper(WebScrapper):
                 year = [
                     el.text for el in dds if el.get("data-parameter") == "year"
                 ].pop()
-                cars.append(Car(name, int(mileage), int(year), int(price), link, None))
+                cars.append(Car(name, int(mileage), int(year), int(price), link, None, None))
             except Exception as e:
                 print(f"exception parsing article: {str(e)}")
         return cars
