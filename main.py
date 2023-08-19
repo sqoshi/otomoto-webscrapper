@@ -21,8 +21,8 @@ def main():
 
     otomoto_dp = scan(sf, OtomotoWebScrapper, 5)
     bidfax_dp = scan(sf, BidfaxWebScrapper, 10)
-    bidfax_dp.write_to_csv("bidfax.csv")
-    otomoto_dp.write_to_csv("otomoto.csv")
+    bidfax_dp.write_to_csv(f"{sf.brand}_{sf.model}_{sf.year[0]}_bidfax.csv")
+    otomoto_dp.write_to_csv(f"{sf.brand}_{sf.model}_{sf.year[0]}_otomoto.csv")
 
 
 # audi a4 2016 nowa generacja

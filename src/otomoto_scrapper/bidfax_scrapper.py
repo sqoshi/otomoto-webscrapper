@@ -1,6 +1,5 @@
 from itertools import cycle
 from bs4 import BeautifulSoup
-from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 
 from .models import SearchFilter, Car
@@ -51,6 +50,8 @@ class BidfaxWebScrapper(WebScrapper):
         cars = []
         offers = soup.find("section", class_="new-offers")
         for offer in offers.find_all("div", class_="thumbnail offer"):
+            if 'script async' in str(offer):
+                continue
             try:
                 price = offer.find("span", class_="prices").text
                 caption = offer.find("div", class_="caption")
@@ -76,9 +77,9 @@ class BidfaxWebScrapper(WebScrapper):
                     year=self.search_filter.year[0],
                 )
                 cars.append(c)
-                print("expected price: ", round(c.price * 47000 / (6000 * 4.1)), " PLN")
+                # print("expected price: ", round(c.price * 47000 / (6000 * 4.1)), " PLN")
             except Exception as e:
-                print(">>>> exception in ", str(e))
+                print("exception parsing offer: ", str(e))
         return cars
 
     def close(self):

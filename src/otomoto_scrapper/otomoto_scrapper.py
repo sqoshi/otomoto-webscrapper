@@ -13,8 +13,6 @@ class OtomotoWebScrapper(WebScrapper):
 
     def extract_cars_from(self, soup):
         offers = soup.find("main")
-        # for x in soup.find("div", class_="ooa-1u8qly9").find_all("li"):
-        #     print(x)
         articles = offers.find_all("article", class_="ooa-1t80gpj ev7e6t818")
         cars = []
         for article in articles:
