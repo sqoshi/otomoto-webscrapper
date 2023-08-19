@@ -2,8 +2,9 @@ from abc import ABC, abstractmethod
 import logging
 from typing import List
 from bs4 import BeautifulSoup
-from models import Car
 import requests
+
+from .models import Car
 
 
 class WebScrapper(ABC):

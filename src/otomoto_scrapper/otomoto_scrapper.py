@@ -2,7 +2,7 @@ from src.otomoto_scrapper.scrapper import WebScrapper
 from .models import SearchFilter, Car
 
 
-class OtomotoWebscrapper(WebScrapper):
+class OtomotoWebScrapper(WebScrapper):
     def __init__(self, sf: SearchFilter) -> None:
         broken_search = "search%5Bfilter_enum_damaged%5D=0&" if not sf.broken else ""
         self.link = f"https://www.otomoto.pl/osobowe/{sf.brand}/{sf.model}/od-{sf.year[0]}?{broken_search}search%5Bfilter_float_year%3Ato%5D={sf.year[1]}"
