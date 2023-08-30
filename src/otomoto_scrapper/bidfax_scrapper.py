@@ -18,7 +18,7 @@ agents = cycle(
 
 class BidfaxWebScrapper(WebScrapper):
     def __init__(self, sf: SearchFilter) -> None:
-        self.link = f"https://en.bidfax.info/{sf.brand}/{sf.model}/f/from-year={sf.year[0]}/to-year={sf.year[1]}/"
+        self.link = f"https://en.bidfax.info/{sf.brand.lower().replace(' ','-')}/{sf.model}/f/from-year={sf.year[0]}/to-year={sf.year[1]}/"
         self.search_filter = sf
         self.driver = None
 
@@ -29,6 +29,7 @@ class BidfaxWebScrapper(WebScrapper):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         options.add_argument("--headless")
+        options.add_argument("--disable-web-security")
         options.add_argument(f"user-agent={next(agents)}")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
@@ -44,6 +45,7 @@ class BidfaxWebScrapper(WebScrapper):
         self.driver.implicitly_wait(wait_time)
         page_content = self.driver.page_source
         soup = BeautifulSoup(page_content, "html.parser")
+        print(f"Page: {page}")
         return soup
 
     def extract_cars_from(self, soup):
@@ -80,6 +82,7 @@ class BidfaxWebScrapper(WebScrapper):
                 # print("expected price: ", round(c.price * 47000 / (6000 * 4.1)), " PLN")
             except Exception as e:
                 print("exception parsing offer: ", str(e))
+        print(f"Found cars: {len(cars)}")
         return cars
 
     def close(self):

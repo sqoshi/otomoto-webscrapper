@@ -14,6 +14,7 @@ lxml = "^4.9.3"
 undetected-chromedriver = "^3.5.2"
 selenium-stealth = "^1.0.6"
 webdriver-manager = "^4.0.0"
+pytrends = "^4.9.2"
 
 
 [tool.poetry.group.dev.dependencies]
