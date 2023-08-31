@@ -19,7 +19,7 @@ def scan(sf: SearchFilter, webscrapper, pages_limit=10):
 
 def main():
     # sf = SearchFilter(brand="audi", model="a4", year=(2015, 2015), broken=False)
-    sf = SearchFilter(brand="bmw", model="x3", year=(2015, 2015), broken=False)
+    sf = SearchFilter(brand="audi", model="a4", year=(2016, 2016), broken=False)
 
     otomoto_dp = scan(sf, OtomotoWebScrapper, 5)
     bidfax_dp = scan(sf, BidfaxWebScrapper, 4)
@@ -49,7 +49,7 @@ def find_popular_year(search_filters):
                 f"{sf.brand} {sf.model} {year}"
                 for year in range(2010 + (5 * (i - 1)), 2010 + (5 * i))
             ]
-            pytrends.build_payload(kw_list, timeframe="today 12-m", geo="PL")
+            pytrends.build_payload(kw_list, timeframe="today 12-m", geo="GB-ENG")
             data = pytrends.interest_over_time()
             column_sums = data.drop(columns="isPartial").sum()
             merged_results.append(column_sums)
@@ -74,5 +74,5 @@ def compare_models():
 # Alfa Romeo Giulia 2015
 
 if __name__ == "__main__":
-    # main()
-    compare_models()
+    main()
+    # compare_models()
